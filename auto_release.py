@@ -5,6 +5,7 @@
 # Author: Austin Hendrix
 # Copyright Austin Hendrix, 2018
 
+from __future__ import print_function
 
 """
 Automatic release script for ROS packages released with bloom
@@ -41,6 +42,7 @@ most recently released git SHA
 
 import argparse
 import yaml
+import sys
 
 CONFIG_NAME = "ros_auto_release_config.yaml"
 STATE_NAME  =  "ros_auto_release_state.yaml"
@@ -61,6 +63,25 @@ def main():
     parser = argparse.ArgumentParser()
 
     args = parser.parse_args()
+
+    config = load_config()
+    if config is None:
+        print("ERROR: config is empty!")
+        sys.exit(1)
+
+    for package, distros in config.iteritems():
+        # Clone the package (or go to a cached checkout and do a pull)
+        for distro in distros:
+            # Get the branch from bloom
+            # Check out the branch
+            # Check if the branch has been updated
+            # If the branch has changes since last release:
+                # Run catkin_generate_changelog
+                # Run catkin_prepare_release
+                # Commit and push
+                # Run bloom-release package --track distro
+                # ( assumes distro and track names are the same )
+            pass
 
 if __name__ == '__main__':
     main()
